@@ -1,0 +1,310 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+background = #222
+background-alt = #444
+foreground = #dfdfdf
+foreground-alt = #888
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
+[bar/main]
+;monitor = ${env:MONITOR:LVDS1}
+;monitor = ${env:MONITOR:eDP-1}
+width = 100%
+height = 2.5%
+radius = 6.0
+fixed-center = false
+;bottom = true
+border-bottom-size = 1
+border-color = #00BCD4
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+#border-size = 0
+line-size = 2
+padding = 1
+module-margin = 1
+
+wm-restack = bspwm
+enable-ipc = true
+
+override-redirect = true
+font-0 = "Fira Mono:style=Regular:size=8"
+font-1 = "Fira Mono:style=Regular:size=8"
+
+modules-left = bspwm
+modules-center = cmus
+modules-right = info-kernel battery wlan cpu memory date
+
+tray-position = right
+tray-padding = 2
+tray-maxsize = 24
+
+[global/wm]
+margin-top = 0
+
+[module/xwindow]
+type = internal/xwindow
+label = %title:0:30:...%
+
+[module/ewmh]
+type = internal/xworkspaces
+pin-workspaces = false
+enable-click = false
+enable-scroll = false
+
+label-active = " %name% "
+label-active-underline = #fba922
+
+label-occupied = " %name% "
+label-occupied-foreground = #ffaa00
+;label-occupied-background = #372247
+
+label-urgent = " %name% "
+label-urgent-underline = #9b0a20
+
+label-empty = " %name% "
+label-empty-foreground = #555555
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format-prefix = 
+format-prefix-foreground = ${colors.foreground-alt}
+#format-underline = #BDA938
+label = %percentage:2%%
+
+[module/memory]
+type = internal/memory
+interval = 2
+format-prefix = 
+format-prefix-foreground = ${colors.foreground-alt}
+#format-underline = #305B85
+label = %percentage_used:2%%
+
+[module/wlan]
+type = internal/network
+interface = wlan0 
+interval = 5.0
+
+format-connected = <ramp-signal> <label-connected>
+format-connected-foreground = #9f78e1
+#label-connected = %essid%
+label-connected = %upspeed%  %downspeed%
+label-disconnected = "wlan0 link down"
+format-disconnected-underline = #f90000
+
+ramp-signal-0 = 
+ramp-signal-1 = ○ 
+ramp-signal-2 = ○○ 
+ramp-signal-3 = ○○○ 
+ramp-signal-4 = ○○○○ 
+
+[module/eth]
+type = internal/network
+interface = wlan0
+interval = 3.0
+
+#format-connected-underline = #55aa55
+format-connected-prefix = 
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %upspeed% ⇅ %downspeed%
+
+format-disconnected = "enp3s0 link down"
+format-disconnected-underline = #f90000
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = "%a %b %d"
+#date-alt = %a %b %d
+
+time = %I:%M
+time-alt = %I:%M%p
+
+format-prefix =
+label-foreground = #4f97c6 
+#format-underline = #8557A3
+
+label = %date% %time%
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 98
+
+format-charging = <label-charging>
+format-charging-underline = 
+
+format-discharging = <ramp-capacity> <label-discharging>
+;format-discharging-underline = ${self.format-charging-underline}
+
+format-full = <label-full>
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+label-charging = ⚡ %percentage%%
+label-discharging = %percentage%%
+label-full = "%percentage%"
+
+;[module/github]
+;type = internal/github
+;token = ${file:/home/jon/.config/github/notifications.token}
+;empty-notifications = false
+;label = %{u#ff9900 +u} %notifications% %{u-}
+;label = %{u#0099ff +u} %{u-}
+;interval = 10
+
+#[module/updates-arch-combined]
+#type = custom/script
+#exec = ~/.config/polybar/updates-arch-combined.sh
+#interval = 600
+#format-prefix-foreground = ${colors.foreground-alt}
+#label = $updates_arch ↺ $updates_aur 
+
+[module/info-kernel]
+type = custom/script
+exec = uname -r
+interval = 30
+format-foreground = #4f97c6
+#format-underline = #2E86C1
+
+[module/cmus]
+type = custom/script
+
+exec = ~/.config/polybar/cmus.sh
+exec-if = pgrep -x cmus
+interval = 1
+
+click-left = cmus-remote --next
+click-right = cmus-remote --prev
+click-middle = cmus-remote --pause
+scroll-up = cmus-remote --volume +5%
+scroll-down = cmus-remote --volume -5%
+
+label-font = 0
+format = <label>
+format-underline = ${colors.foreground-alt}
+label = %output%
+label-maxlen = 50
+
+[settings]
+screenchange-reload = true
+
+;[module/bspwm]
+;type = internal/bspwm
+
+;enable-click = true
+;enable-scroll = true
+;reverse-scroll = true
+;pin-workspaces = true
+
+;ws-icon-0 = 1;
+;ws-icon-1 = 2;
+;ws-icon-2 = 3;
+;ws-icon-3 = 4;
+;ws-icon-4 = 5;
+;ws-icon-5 = 6;
+;ws-icon-6 = 7;
+;ws-icon-7 = 8;
+;ws-icon-8 = 9;
+;ws-icon-9 = 10;
+;ws-icon-default = 
+;
+;format = <label-state>
+;
+;label-focused = %name%
+;label-focused-background = ${colors.background}
+;label-focused-underline= #6790eb
+;label-focused-padding = 2
+;label-focused-foreground = ${colors.foreground}
+;
+;label-occupied = %name%
+;label-occupied-padding = 2
+;label-occupied-background = ${colors.background}
+;
+;label-urgent = %name%
+;label-urgent-padding = 2
+;
+;label-empty = %name%
+;label-empty-foreground = ${colors.foreground}
+;label-empty-padding = 2
+;label-empty-background = ${colors.background}
+;label-monocle = "M"
+;label-monocle-foreground = ${colors.foreground}
+;label-tiled = "  "
+;label-tiled-foreground = ${colors.foreground}
+;label-fullscreen = "  "
+;label-fullscreen-foreground = ${colors.foreground}
+;label-floating = "  "
+;label-floating-foreground = ${colors.foreground}
+;label-pseudotiled = "  "
+;label-pseudotiled-foreground = ${colors.foreground}
+;label-locked = "  "
+;label-locked-foreground = ${colors.foreground}
+;label-sticky = "  "
+;label-sticky-foreground = ${colors.foreground}
+;label-private =  "     "
+;label-private-foreground = ${colors.foreground}
+
+; Separator in between workspaces
+;label-separator = |
+;label-separator-padding = 10
+;label-separator-foreground = #ffb52a
+
+;format-foreground = ${colors.foreground}
+;format-background = ${colors.background}
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-foreground = #74e24f
+label-focused-underline= #74e24f
+label-focused-padding = 1 
+
+label-occupied = %index%
+label-occupied-foreground = #4f97c6 
+label-occupied-padding = 1
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 1
+
+label-separator = |
+label-separator-foreground = #404242
+
+
+; vim:ft=dosini
+
