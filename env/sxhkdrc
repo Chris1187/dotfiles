@@ -111,9 +111,9 @@ super + {Left,Down,Up,Right}
 # terminal emulator
 super + Return
 	st
-# decondary terminal
+# secondary terminal
 super + shift + Return
-    fish
+    terminator
 # browser
 super + shift + KP_0
     firejail -- qutebrowser
