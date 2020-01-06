@@ -182,6 +182,15 @@ let g:secure_modelines_allowed_items = [
                 \ ]
 
 " =============================================================================
+" # Terminal settings
+" =============================================================================
+" https://github.com/camspiers/dotfiles/blob/master/files/.config/nvim/init.vim#L446-L468
+autocmd TermOpen * startinsert
+
+" Turn off line numbers etc
+autocmd TermOpen * setlocal listchars= nonumber norelativenumber
+
+" =============================================================================
 " # NCM2 settings
 " =============================================================================
 "autocmd BufEnter * call ncm2#enable_for_buffer()
