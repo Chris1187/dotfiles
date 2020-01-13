@@ -327,8 +327,8 @@ map H ^
 map L $
 
 " https://vi.stackexchange.com/a/2092 
-nnoremap <leader>sv :vsp /tmp/scratch<CR>
-nnoremap <leader>so :vsp /tmp/scratch.org<CR>
+nnoremap <leader>vs :vsp /tmp/scratch<CR>
+nnoremap <leader>os :vsp /tmp/scratch.org<CR>
 
 " Jump to last edit position on opening file
 if has("autocmd")

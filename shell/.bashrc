@@ -13,16 +13,19 @@ else
     alias vi="vim"
 fi
 
+alias ls='exa -a --git --group-directories-first'
+alias lsl='exa -a -l -F -m -u -h --git --group-directories-first'
+
 alias wifi='nmtui'
+alias contacts='abook'
+
 alias vimc='nvim ~/.config/nvim/init.vim'
 alias vimi3='nvim ~/.config/i3/config'
 alias vimbsp='nvim ~/.config/bspwm/bspwmrc'
 alias vimsxhkd='nvim ~/.config/sxhkd/sxhkdrc'
 alias vimcompton='nvim ~/.config/compton/compton.conf'
 alias vimpoly='nvim ~/.config/polybar/config'
-alias contacts='abook'
 
-alias ls='exa -a -l -F -m -u -h --git --group-directories-first'
 alias reflector='sudo reflector --verbose --latest 10 --country US --sort rate --save /etc/pacman.d/mirrorlist'
 
 PS1='[\u@\h \W]\$ '
