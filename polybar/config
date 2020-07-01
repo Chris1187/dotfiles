@@ -51,7 +51,7 @@ font-0 = "Fira Mono:style=Regular:size=8"
 font-1 = "Fira Mono:style=Regular:size=8"
 
 modules-left = bspwm
-modules-center = cmus
+modules-center = 
 modules-right = info-kernel battery wlan cpu memory date
 
 tray-position = right
@@ -194,24 +194,24 @@ interval = 30
 format-foreground = #4f97c6
 #format-underline = #2E86C1
 
-[module/cmus]
-type = custom/script
-
-exec = ~/.config/polybar/cmus.sh
-exec-if = pgrep -x cmus
-interval = 1
-
-click-left = cmus-remote --next
-click-right = cmus-remote --prev
-click-middle = cmus-remote --pause
-scroll-up = cmus-remote --volume +5%
-scroll-down = cmus-remote --volume -5%
-
-label-font = 0
-format = <label>
-format-underline = ${colors.foreground-alt}
-label = %output%
-label-maxlen = 50
+;[module/cmus]
+;type = custom/script
+;
+;exec = ~/.config/polybar/cmus.sh
+;exec-if = pgrep -x cmus
+;interval = 1
+;
+;click-left = cmus-remote --next
+;click-right = cmus-remote --prev
+;click-middle = cmus-remote --pause
+;scroll-up = cmus-remote --volume +5%
+;scroll-down = cmus-remote --volume -5%
+;
+;label-font = 0
+;format = <label>
+;format-underline = ${colors.foreground-alt}
+;label = %output%
+;label-maxlen = 50
 
 [settings]
 screenchange-reload = true

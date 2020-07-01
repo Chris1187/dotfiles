@@ -44,6 +44,9 @@ Plug 'machakann/vim-highlightedyank'
 "Plug 'jceb/blinds.nvim'
 Plug 'junegunn/rainbow_parentheses.vim'
 Plug 'rstacruz/vim-closer'
+"Plug 'mhinz/vim-signify'
+Plug 'bling/vim-bufferline'
+Plug 'ap/vim-css-color'
 
 " Fuzzy finder
 Plug 'airblade/vim-rooter'
@@ -72,8 +75,8 @@ Plug 'rust-lang/rust.vim'
 "Plug 'ncm2/ncm2-path'
 
 " Linter
-"Plug 'dense-analysis/ale'
-Plug 'vim-syntastic/syntastic'
+Plug 'dense-analysis/ale'
+"Plug 'vim-syntastic/syntastic'
 
 " Use :Nyancat or :Nyancat2
 Plug 'koron/nyancat-vim'
@@ -106,13 +109,12 @@ endif
 let base16colorspace=256
 let g:base16_shell_path="~/chris/base16-builder-rust/templates/shell/scripts"
 
+syntax enable
 set background=dark
 colorscheme base16-gruvbox-dark-hard
-hi Normal ctermbg=NONE
-syntax on
+"hi Normal ctermbg=NONE
 
-set cursorline
-let g:blinds_guibd = "#303030"
+"set cursorline
 
 highlight clear lineNr
 
@@ -157,13 +159,54 @@ nmap <Leader>8 <Plug>lightline#bufferline#go(8)
 nmap <Leader>9 <Plug>lightline#bufferline#go(9)
 nmap <Leader>0 <Plug>lightline#bufferline#go(10)
 
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
+let g:lightline = {
+		\ 'component': {
+		\   'lineinfo': ' %3l:%-2v',
+		\ },
+		\ 'component_function': {
+		\   'readonly': 'LightlineReadonly',
+		\   'fugitive': 'LightlineFugitive'
+		\ },
+		\ 'separator': { 'left': '', 'right': '' },
+		\ 'subseparator': { 'left': '', 'right': '' }
+		\ }
+	function! LightlineReadonly()
+		return &readonly ? '' : ''
+	endfunction
+	function! LightlineFugitive()
+		if exists('*fugitive#head')
+			let branch = fugitive#head()
+			return branch !=# '' ? ''.branch : ''
+		endif
+		return ''
+	endfunction
+
+" =============================================================================
+" # Vim-Bufferline settings
+" =============================================================================
+let g:bufferline_echo = 0
+autocmd VimEnter *
+ \ let &statusline='%{bufferline#refresh_status()}'
+  \ .bufferline#get_status_string()
+
 " =============================================================================
 " # Netrw settings
 " =============================================================================
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_winsize = 10
-let g:netrw_browse_split = 2
+let g:netrw_browse_split = 4
 
 " =============================================================================
 " # Secure modelines
@@ -218,10 +261,10 @@ let $RUST_SRC_PATH = systemlist("rustc --print sysroot")[0] . "/lib/rustlib/src/
 " # Rust linter
 " =============================================================================
 let g:ale_enabled = 1
-let g:ale_completion_enabled = 0
+let g:ale_completion_enabled = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 1
-let g:ale_lint_on_save = 0
+let g:ale_lint_on_save = 1
 let g:ale_lint_on_enter = 0
 let g:ale_virtualtext_cursor = 1
 let g:ale_rust_rls_config = {
@@ -293,6 +336,33 @@ set softtabstop=4
 set expandtab
 
 " =============================================================================
+" # Split settings
+" =============================================================================
+" Remap window select
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Remap split resizing
+noremap <silent> <C-Left> :vertical resize +3<CR>
+noremap <silent> <C-Right> :vertical resize -3<CR>
+noremap <silent> <C-Up> :resize +3<CR>
+noremap <silent> <C-Down> :resize -3<CR>
+
+" Remap window horizontal/vertical split swapping
+"map <Leader>?? <C-w>t<C-w>H
+"map <Leader>?? <C-w>t<C-w>K
+
+" Terminal splits
+nmap <Leader>tv :vnew term://bash<CR>
+nmap <Leader>th :sp term://bash<CR>
+
+" https://vi.stackexchange.com/a/2092 
+nnoremap <leader>vs :vnew<CR>
+nnoremap <leader>os :vsp /tmp/scratch.org<CR>
+
+" =============================================================================
 " # Misc
 " =============================================================================
 set wildmenu
@@ -306,32 +376,45 @@ set gdefault
 set undodir=~/.vimdid
 set undofile
 set nocompatible
+set hidden
 
 let g:ctrlp_map = '<leader><leader>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 
 tnoremap <Esc> <C-\><C-N>
-nmap <Leader>tv :vnew term://bash<CR>
-nmap <Leader>th :sp term://bash<CR>
 
 nmap <Leader>s <Plug>(easymotion-s)
 nmap <leader>w <Plug>(easymotion-overwin-f2)
 let g:EasyMotion_smartcase = 1
-
 nmap <leader>u :UndotreeToggle<CR>
-
 nmap <leader>b :Buffers<CR>
 nmap <leader>c :TagbarToggle<CR>
-
 map H ^
 map L $
 
-" https://vi.stackexchange.com/a/2092 
-nnoremap <leader>vs :vsp /tmp/scratch<CR>
-nnoremap <leader>os :vsp /tmp/scratch.org<CR>
+
 
 " Jump to last edit position on opening file
 if has("autocmd")
   " https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
   au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+" <leader>r for Rg search
+noremap <leader>r :Rg 
+let g:fzf_layout = { 'down': '~20%' }
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+function! s:list_cmd()
+  let base = fnamemodify(expand('%'), ':h:.:S')
+  return base == '.' ? 'fd --type file --follow' : printf('fd --type file --follow | proximity-sort %s', shellescape(expand('%')))
+endfunction
+
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(<q-args>, {'source': s:list_cmd(),
+  \                               'options': '--tiebreak=index'}, <bang>0)

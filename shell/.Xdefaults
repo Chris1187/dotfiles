@@ -1,0 +1,49 @@
+!! Transparency (0-1):
+st.alpha: 0.98
+
+!! Set a default font and font size as below:
+!! st.font: Monospace-11;
+
+! st.termname: st-256color
+! st.borderpx: 2
+
+!! Set the background, foreground and cursor colors as below:
+*.background: #282828
+*.foreground: white
+*.cursorColor: white
+
+/* !! gruvbox: */
+st*.color0: #1d2021 */
+st*.color1: #cc241d */
+st*.color2: #98971a */
+st*.color3: #d79921 */
+st*.color4: #458588 */
+st*.color5: #b16286 */
+st*.color6: #689d6a */
+st*.color7: #a89984 */
+st*.color8: #928374 */
+st*.color9: #fb4934 */
+st*.color10: #b8bb26 */
+st*.color11: #fabd2f */
+st*.color12: #83a598 */
+st*.color13: #d3869b */
+st*.color14: #8ec07c */
+st*.color15: #ebdbb2 */
+
+/* ! base16 */
+/* *.color0:       #181818 */
+/* *.color1:       #ab4642 */
+/* *.color2:       #a1b56c */
+/* *.color3:       #f7ca88 */
+/* *.color4:       #7cafc2 */
+/* *.color5:       #ba8baf */
+/* *.color6:       #86c1b9 */
+/* *.color7:       #d8d8d8 */
+/* *.color8:       #585858 */
+/* *.color9:       #ab4642 */
+/* *.color10:      #a1b56c */
+/* *.color11:      #f7ca88 */
+/* *.color12:      #7cafc2 */
+/* *.color13:      #ba8baf */
+/* *.color14:      #86c1b9 */
+/* *.color15:      #f8f8f8 */
